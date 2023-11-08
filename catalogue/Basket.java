@@ -61,8 +61,8 @@ public class Basket extends ArrayList<Product> implements Serializable
     return super.add( pr );     // Call add in ArrayList
   }
 
-  public boolean remove(Product pr){
-      return super.remove( pr );
+  public void remove(Product pr){
+    super.remove(pr);
   }
 
   /**

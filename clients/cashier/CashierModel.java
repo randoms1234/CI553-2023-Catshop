@@ -162,7 +162,8 @@ public class CashierModel extends Observable
 
   public void doRemove(String pn, String amt) throws StockException {
     int    amount  = Integer.parseInt(amt);
-    theBasket.remove(theProduct);
+    //theProduct.setQuantity(amount);
+    theBasket.remove(theProduct); //removes last line
     theStock.addStock(pn, amount);
   }
 
