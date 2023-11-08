@@ -56,12 +56,13 @@ public class CashierModel extends Observable
    * Check if the product is in Stock
    * @param productNum The product number
    */
-  public void doCheck(String productNum )
+  public void doCheck(String productNum, String amnt )
   {
     String theAction = "";
     theState  = State.process;                  // State process
     pn  = productNum.trim();                    // Product no.
-    int    amount  = 1;                         //  & quantity
+
+    int    amount  = Integer.parseInt(amnt);                         //  & quantity
     try
     {
       if ( theStock.exists( pn ) )              // Stock Exists?
@@ -157,6 +158,12 @@ public class CashierModel extends Observable
     }
     theBasket = null;
     setChanged(); notifyObservers(theAction); // Notify
+  }
+
+  public void doRemove(String pn, String amt) throws StockException {
+    int    amount  = Integer.parseInt(amt);
+    theBasket.remove(theProduct);
+    theStock.addStock(pn, amount);
   }
 
   /**
