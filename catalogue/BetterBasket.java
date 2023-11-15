@@ -1,9 +1,11 @@
 package catalogue;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Currency;
 import java.util.Formatter;
 import java.util.Locale;
+import java.util.Objects;
 
 /**
  * Write a description of class BetterBasket here.
@@ -13,8 +15,9 @@ import java.util.Locale;
  */
 public class BetterBasket extends Basket implements Serializable
 {
+  @Serial
   private static final long serialVersionUID = 1L;
-  private int    theOrderNum = 0;          // Order number
+  private int    theOrderNum;          // Order number
 
   /**
    * Constructor for a basket which is
@@ -67,14 +70,11 @@ public class BetterBasket extends Basket implements Serializable
   }
 
   public void rem(Product pr){
-
-    for(Product pr2: this){
-      if(pr2.getProductNum().equals(pr.getProductNum())){
+    for (Product pr2: this) {
+      if (Objects.equals(pr2.getProductNum(), pr.getProductNum())){
         super.remove(pr2);
         return;
-
       }
-      return;
     }
   }
 
