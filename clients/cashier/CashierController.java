@@ -1,6 +1,8 @@
 package clients.cashier;
 
 
+import middle.StockException;
+
 /**
  * The Cashier Controller
  * @author M A Smith (c) June 2014
@@ -24,11 +26,13 @@ public class CashierController
 
   /**
    * Check interaction from view
-   * @param pn The product number to be checked
+   *
+   * @param pn   The product number to be checked
+   * @param text
    */
-  public void doCheck( String pn )
+  public void doCheck(String pn, String quan)
   {
-    model.doCheck(pn);
+    model.doCheck(pn, quan);
   }
 
    /**
@@ -45,5 +49,9 @@ public class CashierController
   public void doBought()
   {
     model.doBought();
+  }
+
+  public void doRemove(String pn, String quan) throws StockException {
+    model.doRemove(pn, quan);
   }
 }

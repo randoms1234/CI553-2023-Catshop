@@ -3,6 +3,7 @@ package clients.cashier;
 import catalogue.Basket;
 import middle.MiddleFactory;
 import middle.OrderProcessing;
+import middle.StockException;
 import middle.StockReadWriter;
 
 import javax.swing.*;
@@ -23,14 +24,18 @@ public class CashierView implements Observer
   private static final String CHECK  = "Check";
   private static final String BUY    = "Buy";
   private static final String BOUGHT = "Bought";
+  private static final String REMOVE = "Remove";
 
   private final JLabel      theAction  = new JLabel();
   private final JTextField  theInput   = new JTextField();
+  private final JTextField theQuanity = new JTextField();
   private final JTextArea   theOutput  = new JTextArea();
   private final JScrollPane theSP      = new JScrollPane();
   private final JButton     theBtCheck = new JButton( CHECK );
   private final JButton     theBtBuy   = new JButton( BUY );
   private final JButton     theBtBought= new JButton( BOUGHT );
+
+  private final JButton theBtRemove = new JButton(REMOVE);
 
   private StockReadWriter theStock     = null;
   private OrderProcessing theOrder     = null;
@@ -64,7 +69,7 @@ public class CashierView implements Observer
 
     theBtCheck.setBounds( 16, 25+60*0, 80, 40 );    // Check Button
     theBtCheck.addActionListener(                   // Call back code
-      e -> cont.doCheck( theInput.getText() ) );
+      e -> cont.doCheck( theInput.getText(), theQuanity.getText() ) );
     cp.add( theBtCheck );                           //  Add to canvas
 
     theBtBuy.setBounds( 16, 25+60*1, 80, 40 );      // Buy button 
@@ -72,7 +77,7 @@ public class CashierView implements Observer
       e -> cont.doBuy() );
     cp.add( theBtBuy );                             //  Add to canvas
 
-    theBtBought.setBounds( 16, 25+60*3, 80, 40 );   // Clear Button
+    theBtBought.setBounds( 16, 25+60*2, 80, 40 );   // brought Button
     theBtBought.addActionListener(                  // Call back code
       e -> cont.doBought() );
     cp.add( theBtBought );                          //  Add to canvas
@@ -92,6 +97,21 @@ public class CashierView implements Observer
     theSP.getViewport().add( theOutput );           //  In TextArea
     rootWindow.setVisible( true );                  // Make visible
     theInput.requestFocus();                        // Focus is here
+
+    theQuanity.setBounds( 16, 25+60*3, 50, 40 );         // Quantity Area
+    theQuanity.setText("1");                           // Default 1
+    cp.add( theQuanity );
+
+    theBtRemove.setBounds( 16, 25+60*4, 80, 40 );   // remove Button
+    theBtRemove.addActionListener(                  // Call back code
+            e -> {
+              try {
+                cont.doRemove(theInput.getText(), theQuanity.getText());
+              } catch (StockException ex) {
+                throw new RuntimeException(ex);
+              }
+            });
+    cp.add( theBtRemove);
   }
 
   /**
