@@ -1,6 +1,6 @@
 package clients.customer;
 
-import catalogue.Basket;
+import catalogue.BetterBasket;
 import catalogue.Product;
 import debug.DEBUG;
 import middle.MiddleFactory;
@@ -19,7 +19,7 @@ import java.util.Observable;
 public class CustomerModel extends Observable
 {
   private Product     theProduct = null;          // Current product
-  private Basket      theBasket  = null;          // Bought items
+  private BetterBasket      theBasket  = null;          // Bought items
 
   private String      pn = "";                    // Product being processed
 
@@ -48,7 +48,7 @@ public class CustomerModel extends Observable
    * return the Basket of products
    * @return the basket of products
    */
-  public Basket getBasket()
+  public BetterBasket getBasket()
   {
     return theBasket;
   }
@@ -128,9 +128,9 @@ public class CustomerModel extends Observable
    * Make a new Basket
    * @return an instance of a new Basket
    */
-  protected Basket makeBasket()
+  protected BetterBasket makeBasket()
   {
-    return new Basket();
+    return new BetterBasket();
   }
 }
 

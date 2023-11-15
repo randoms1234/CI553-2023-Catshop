@@ -1,6 +1,6 @@
 package clients.cashier;
 
-import catalogue.Basket;
+import catalogue.BetterBasket;
 import catalogue.Product;
 import debug.DEBUG;
 import middle.*;
@@ -18,12 +18,14 @@ public class CashierModel extends Observable
 
   private State       theState   = State.process;   // Current state
   private Product     theProduct = null;            // Current product
-  private Basket      theBasket  = null;            // Bought items
+  private BetterBasket     theBasket  = null;            // Bought items
 
   private String      pn = "";                      // Product being processed
 
   private StockReadWriter theStock     = null;
   private OrderProcessing theOrder     = null;
+
+  private int lastLine = -1;
 
   /**
    * Construct the model of the Cashier
@@ -42,12 +44,12 @@ public class CashierModel extends Observable
     }
     theState   = State.process;                  // Current state
   }
-  
+
   /**
    * Get the Basket of products
    * @return basket
    */
-  public Basket getBasket()
+  public BetterBasket getBasket()
   {
     return theBasket;
   }
@@ -118,6 +120,7 @@ public class CashierModel extends Observable
           theBasket.add( theProduct );          //  Add to bought
           theAction = "Purchased " +            //    details
                   theProduct.getDescription();  //
+          lastLine++;
         } else {                                // F
           theAction = "!!! Not in stock";       //  Now no stock
         }
@@ -161,10 +164,23 @@ public class CashierModel extends Observable
   }
 
   public void doRemove(String pn, String amt) throws StockException {
-    int    amount  = Integer.parseInt(amt);
-    //theProduct.setQuantity(amount);
-    theBasket.remove(theProduct); //removes last line
-    theStock.addStock(pn, amount);
+    String theAction = "";
+    System.out.println(theBasket.getDetails());
+
+    if (theStock.exists(pn)) {
+      theProduct = theStock.getDetails(pn);
+      int amount = Integer.parseInt(amt);
+      theAction = "Item removed: " + pn;
+      theBasket.rem(theProduct); //removes line
+      lastLine--;
+      theStock.addStock(theProduct.getProductNum(), amount);
+      theState = State.process;
+    }
+    else{
+      theAction = "Product Number doesn't exist please try again";
+
+    }
+    setChanged(); notifyObservers(theAction);
   }
 
   /**
@@ -200,9 +216,9 @@ public class CashierModel extends Observable
    * return an instance of a new Basket
    * @return an instance of a new Basket
    */
-  protected Basket makeBasket()
+  protected BetterBasket makeBasket()
   {
-    return new Basket();
+    return new BetterBasket();
   }
 }
   
