@@ -25,7 +25,6 @@ public class CashierModel extends Observable
   private StockReadWriter theStock     = null;
   private OrderProcessing theOrder     = null;
 
-  private int lastLine = -1;
 
   /**
    * Construct the model of the Cashier
@@ -120,7 +119,6 @@ public class CashierModel extends Observable
           theBasket.add( theProduct );          //  Add to bought
           theAction = "Purchased " +            //    details
                   theProduct.getDescription();  //
-          lastLine++;
         } else {                                // F
           theAction = "!!! Not in stock";       //  Now no stock
         }
@@ -165,14 +163,11 @@ public class CashierModel extends Observable
 
   public void doRemove(String pn, String amt) throws StockException {
     String theAction = "";
-    System.out.println(theBasket.getDetails());
-
     if (theStock.exists(pn)) {
       theProduct = theStock.getDetails(pn);
       int amount = Integer.parseInt(amt);
       theAction = "Item removed: " + pn;
       theBasket.rem(theProduct); //removes line
-      lastLine--;
       theStock.addStock(theProduct.getProductNum(), amount);
       theState = State.process;
     }

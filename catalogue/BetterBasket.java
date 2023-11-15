@@ -55,20 +55,27 @@ public class BetterBasket extends Basket implements Serializable
   @Override
   public boolean add( Product pr )
   {
+    for(Product pr2: this){
+      if (pr.getProductNum().equals(pr2.getProductNum())){
+        pr2.setQuantity(pr2.getQuantity()+pr.getQuantity());
+        return true;
+      }
+    }
+
+
     return super.add( pr );     // Call add in ArrayList
   }
 
   public void rem(Product pr){
 
     for(Product pr2: this){
-      if(pr.getProductNum().equals(pr2.getProductNum())){
+      if(pr2.getProductNum().equals(pr.getProductNum())){
         super.remove(pr2);
         return;
 
       }
       return;
     }
-
   }
 
   /**
