@@ -18,7 +18,6 @@ import java.util.Observable;
  */
 public class CustomerModel extends Observable
 {
-
   private BetterBasket      theBasket  = null;          // Bought items
 
   private StockReader     theStock     = null;
@@ -30,8 +29,8 @@ public class CustomerModel extends Observable
    */
   public CustomerModel(MiddleFactory mf)
   {
-    try                                          // 
-    {  
+    try                                          //
+    {
       theStock = mf.makeStockReader();           // Database access
     } catch ( Exception e )
     {
@@ -40,7 +39,7 @@ public class CustomerModel extends Observable
     }
     theBasket = makeBasket();                    // Initial Basket
   }
-  
+
   /**
    * return the Basket of products
    * @return the basket of products
@@ -67,14 +66,13 @@ public class CustomerModel extends Observable
       {                                         // T
         Product pr = theStock.getDetails(pn); //  Product
         if ( pr.getQuantity() >= amount )       //  In stock?
-        { 
-          theAction =                           //   Display 
+        {
+          theAction =                           //   Display
             String.format( "%s : %7.2f (%2d) ", //
               pr.getDescription(),              //    description
               pr.getPrice(),                    //    price
               pr.getQuantity() );               //    quantity
           pr.setQuantity( amount );             //   Require 1
-          theBasket.add( pr );                  //   Add to basket
           thePic = theStock.getImage(pn);     //    product
         } else {                                //  F
           theAction =                           //   Inform
@@ -99,27 +97,18 @@ public class CustomerModel extends Observable
   public void doClear()
   {
     String theAction = "";
-    theBasket.clear();                        // Clear s. list
     theAction = "Enter Product Number";       // Set display
     thePic = null;                            // No picture
     setChanged(); notifyObservers(theAction);
   }
-  
+
   /**
    * Return a picture of the product
    * @return An instance of an ImageIcon
-   */ 
+   */
   public ImageIcon getPicture()
   {
     return thePic;
-  }
-  
-  /**
-   * ask for update of view callled at start
-   */
-  private void askForUpdate()
-  {
-    setChanged(); notifyObservers("START only"); // Notify
   }
 
   /**
