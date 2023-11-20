@@ -59,7 +59,7 @@ public class CashierModel extends Observable
    */
   public void doCheck(String productNum, String amnt )
   {
-    String theAction = "";
+    String theAction;
     theState  = State.process;                  // State process
     pn  = productNum.trim();                    // Product no.
 
@@ -101,8 +101,7 @@ public class CashierModel extends Observable
    */
   public void doBuy()
   {
-    String theAction = "";
-    int    amount  = 1;                         //  & quantity
+    String theAction;
     try
     {
       if ( theState != State.checked )          // Not checked
@@ -138,12 +137,12 @@ public class CashierModel extends Observable
    */
   public void doBought()
   {
-    String theAction = "";
-    int    amount  = 1;                       //  & quantity
+    String theAction;
+
     try
     {
       if ( theBasket != null &&
-           theBasket.size() >= 1 )            // items > 1
+              !theBasket.isEmpty())            // items > 1
       {                                       // T
         theOrder.newOrder( theBasket );       //  Process order
         theBasket = null;                     //  reset
@@ -162,7 +161,7 @@ public class CashierModel extends Observable
   }
 
   public void doRemove(String pn, String amt) throws StockException {
-    String theAction = "";
+    String theAction;
     if (theStock.exists(pn)) {
       theProduct = theStock.getDetails(pn);
       int amount = Integer.parseInt(amt);
@@ -201,8 +200,10 @@ public class CashierModel extends Observable
         theBasket.setOrderNum( uon );            // Add an order number
       } catch ( OrderException e )
       {
-        DEBUG.error( "Comms failure\n" +
-                     "CashierModel.makeBasket()\n%s", e.getMessage() );
+        DEBUG.error("""
+                Comms failure
+                CashierModel.makeBasket()
+                %s""", e.getMessage() );
       }
     }
   }
