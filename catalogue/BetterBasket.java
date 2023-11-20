@@ -10,7 +10,7 @@ import java.util.Objects;
 /**
  * Write a description of class BetterBasket here.
  * 
- * @author  Your Name 
+ * @author  Connor Richardson
  * @version 1.0
  */
 public class BetterBasket extends Basket implements Serializable
@@ -72,7 +72,7 @@ public class BetterBasket extends Basket implements Serializable
   public void rem(Product pr){
     for (Product pr2: this) {
       if (Objects.equals(pr2.getProductNum(), pr.getProductNum())){
-        super.remove(pr2);
+        super.remove(pr2); //removes item in ArrayList
         return;
       }
     }

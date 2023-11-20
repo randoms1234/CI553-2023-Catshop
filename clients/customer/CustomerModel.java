@@ -18,13 +18,10 @@ import java.util.Observable;
  */
 public class CustomerModel extends Observable
 {
-  private Product     theProduct = null;          // Current product
+
   private BetterBasket      theBasket  = null;          // Bought items
 
-  private String      pn = "";                    // Product being processed
-
   private StockReader     theStock     = null;
-  private OrderProcessing theOrder     = null;
   private ImageIcon       thePic       = null;
 
   /*
@@ -61,13 +58,14 @@ public class CustomerModel extends Observable
   {
     theBasket.clear();                          // Clear s. list
     String theAction = "";
-    pn  = productNum.trim();                    // Product no.
+    // Product being processed
+    String pn = productNum.trim();                    // Product no.
     int    amount  = 1;                         //  & quantity
     try
     {
-      if ( theStock.exists( pn ) )              // Stock Exists?
+      if ( theStock.exists(pn) )              // Stock Exists?
       {                                         // T
-        Product pr = theStock.getDetails( pn ); //  Product
+        Product pr = theStock.getDetails(pn); //  Product
         if ( pr.getQuantity() >= amount )       //  In stock?
         { 
           theAction =                           //   Display 
@@ -77,7 +75,7 @@ public class CustomerModel extends Observable
               pr.getQuantity() );               //    quantity
           pr.setQuantity( amount );             //   Require 1
           theBasket.add( pr );                  //   Add to basket
-          thePic = theStock.getImage( pn );     //    product
+          thePic = theStock.getImage(pn);     //    product
         } else {                                //  F
           theAction =                           //   Inform
             pr.getDescription() +               //    product not

@@ -18,7 +18,7 @@ import java.util.Observer;
  */
 public class CashierView implements Observer
 {
-  private static final int H = 300;       // Height of window pixels
+  private static final int H = 350;       // Height of window pixels
   private static final int W = 400;       // Width  of window pixels
   
   private static final String CHECK  = "Check";
@@ -90,6 +90,10 @@ public class CashierView implements Observer
     theInput.setText("");                           // Blank
     cp.add( theInput );                             //  Add to canvas
 
+    theQuanity.setBounds( 16, 25+60*3, 50, 40 );         // Quantity Area
+    theQuanity.setText("1");                           // Default 1
+    cp.add( theQuanity );
+
     theSP.setBounds( 110, 100, 270, 160 );          // Scrolling pane
     theOutput.setText( "" );                        //  Blank
     theOutput.setFont( f );                         //  Uses font  
@@ -98,9 +102,6 @@ public class CashierView implements Observer
     rootWindow.setVisible( true );                  // Make visible
     theInput.requestFocus();                        // Focus is here
 
-    theQuanity.setBounds( 16, 25+60*3, 50, 40 );         // Quantity Area
-    theQuanity.setText("1");                           // Default 1
-    cp.add( theQuanity );
 
     theBtRemove.setBounds( 16, 25+60*4, 80, 40 );   // remove Button
     theBtRemove.addActionListener(                  // Call back code
