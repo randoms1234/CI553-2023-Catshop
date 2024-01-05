@@ -4,7 +4,6 @@ import catalogue.BetterBasket;
 import catalogue.Product;
 import debug.DEBUG;
 import middle.MiddleFactory;
-import middle.OrderProcessing;
 import middle.StockException;
 import middle.StockReader;
 
@@ -34,8 +33,11 @@ public class CustomerModel extends Observable
       theStock = mf.makeStockReader();           // Database access
     } catch ( Exception e )
     {
-      DEBUG.error("CustomerModel.constructor\n" +
-                  "Database not created?\n%s\n", e.getMessage() );
+      DEBUG.error("""
+              CustomerModel.constructor
+              Database not created?
+              %s
+              """, e.getMessage() );
     }
     theBasket = makeBasket();                    // Initial Basket
   }
@@ -96,7 +98,7 @@ public class CustomerModel extends Observable
    */
   public void doClear()
   {
-    String theAction = "";
+    String theAction;
     theAction = "Enter Product Number";       // Set display
     thePic = null;                            // No picture
     setChanged(); notifyObservers(theAction);
