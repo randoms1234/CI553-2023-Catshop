@@ -18,7 +18,7 @@ import java.util.Observer;
  */
 public class CashierView implements Observer
 {
-  private static final int H = 300;       // Height of window pixels
+  private static final int H = 350;       // Height of window pixels
   private static final int W = 400;       // Width  of window pixels
   
   private static final String CHECK  = "Check";
@@ -30,15 +30,7 @@ public class CashierView implements Observer
   private final JTextField  theInput   = new JTextField();
   private final JTextField theQuanity = new JTextField();
   private final JTextArea   theOutput  = new JTextArea();
-  private final JScrollPane theSP      = new JScrollPane();
-  private final JButton     theBtCheck = new JButton( CHECK );
-  private final JButton     theBtBuy   = new JButton( BUY );
-  private final JButton     theBtBought= new JButton( BOUGHT );
 
-  private final JButton theBtRemove = new JButton(REMOVE);
-
-  private StockReadWriter theStock     = null;
-  private OrderProcessing theOrder     = null;
   private CashierController cont       = null;
   
   /**
@@ -52,9 +44,9 @@ public class CashierView implements Observer
   public CashierView(  RootPaneContainer rpc,  MiddleFactory mf, int x, int y  )
   {
     try                                           // 
-    {      
-      theStock = mf.makeStockReadWriter();        // Database access
-      theOrder = mf.makeOrderProcessing();        // Process order
+    {
+      StockReadWriter theStock = mf.makeStockReadWriter();        // Database access
+      OrderProcessing theOrder = mf.makeOrderProcessing();        // Process order
     } catch ( Exception e )
     {
       System.out.println("Exception: " + e.getMessage() );
@@ -67,20 +59,23 @@ public class CashierView implements Observer
 
     Font f = new Font("Monospaced",Font.PLAIN,12);  // Font f is
 
+    JButton theBtCheck = new JButton(CHECK);
     theBtCheck.setBounds( 16, 25+60*0, 80, 40 );    // Check Button
     theBtCheck.addActionListener(                   // Call back code
       e -> cont.doCheck( theInput.getText(), theQuanity.getText() ) );
-    cp.add( theBtCheck );                           //  Add to canvas
+    cp.add(theBtCheck);                           //  Add to canvas
 
-    theBtBuy.setBounds( 16, 25+60*1, 80, 40 );      // Buy button 
+    JButton theBtBuy = new JButton(BUY);
+    theBtBuy.setBounds( 16, 25+60*1, 80, 40 );      // Buy button
     theBtBuy.addActionListener(                     // Call back code
       e -> cont.doBuy() );
-    cp.add( theBtBuy );                             //  Add to canvas
+    cp.add(theBtBuy);                             //  Add to canvas
 
+    JButton theBtBought = new JButton(BOUGHT);
     theBtBought.setBounds( 16, 25+60*2, 80, 40 );   // brought Button
     theBtBought.addActionListener(                  // Call back code
       e -> cont.doBought() );
-    cp.add( theBtBought );                          //  Add to canvas
+    cp.add(theBtBought);                          //  Add to canvas
 
     theAction.setBounds( 110, 25 , 270, 20 );       // Message area
     theAction.setText( "" );                        // Blank
@@ -90,18 +85,21 @@ public class CashierView implements Observer
     theInput.setText("");                           // Blank
     cp.add( theInput );                             //  Add to canvas
 
-    theSP.setBounds( 110, 100, 270, 160 );          // Scrolling pane
-    theOutput.setText( "" );                        //  Blank
-    theOutput.setFont( f );                         //  Uses font  
-    cp.add( theSP );                                //  Add to canvas
-    theSP.getViewport().add( theOutput );           //  In TextArea
-    rootWindow.setVisible( true );                  // Make visible
-    theInput.requestFocus();                        // Focus is here
-
     theQuanity.setBounds( 16, 25+60*3, 50, 40 );         // Quantity Area
     theQuanity.setText("1");                           // Default 1
     cp.add( theQuanity );
 
+    JScrollPane theSP = new JScrollPane();
+    theSP.setBounds( 110, 100, 270, 160 );          // Scrolling pane
+    theOutput.setText( "" );                        //  Blank
+    theOutput.setFont( f );                         //  Uses font  
+    cp.add(theSP);                                //  Add to canvas
+    theSP.getViewport().add( theOutput );           //  In TextArea
+    rootWindow.setVisible( true );                  // Make visible
+    theInput.requestFocus();                        // Focus is here
+
+
+    JButton theBtRemove = new JButton(REMOVE);
     theBtRemove.setBounds( 16, 25+60*4, 80, 40 );   // remove Button
     theBtRemove.addActionListener(                  // Call back code
             e -> {
@@ -111,7 +109,7 @@ public class CashierView implements Observer
                 throw new RuntimeException(ex);
               }
             });
-    cp.add( theBtRemove);
+    cp.add(theBtRemove);
   }
 
   /**

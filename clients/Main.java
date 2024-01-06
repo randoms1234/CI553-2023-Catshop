@@ -36,7 +36,7 @@ class Main
 
   private final static boolean many = false;        // Many clients? (Or minimal clients)
 
-  public static void main (String args[])
+  public static void main (String[] args)
   {
     new Main().begin();
   }

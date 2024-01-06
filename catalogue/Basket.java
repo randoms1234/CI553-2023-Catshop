@@ -57,13 +57,10 @@ public class Basket extends ArrayList<Product> implements Serializable
   // Will be in the Java doc for Basket
   @Override
   public boolean add( Product pr )
-  {                              
+  {
     return super.add( pr );     // Call add in ArrayList
   }
 
-  public void remove(Product pr){
-    super.remove(pr);
-  }
 
   /**
    * Returns a description of the products in the basket suitable for printing.
